@@ -6,6 +6,7 @@ const debug = require('debug')('ara:network:node:dht')
 const dht = require('ara-network/dht')
 
 const conf = {
+  concurrency: 16,
   maxTables: 1000,
   maxValues: 1000,
   timeout: 2000, // in milliseconds
