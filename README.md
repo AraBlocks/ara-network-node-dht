@@ -22,6 +22,9 @@ options below in _INI_ format.
 
 ```ini
 [network.node.dht]
+  ; maximum query concurrency
+
+  concurrency = 16
   ; maximum tables stored
   maxTables = 1000
 
@@ -52,7 +55,15 @@ The `ara-network-node-dht` module can be used programmatically as it
 conforms to the [`ara-network` node interface][interface].
 
 ```js
+const { argv } = require('yargs')
 const dht = require('ara-network-node-dht')
+const rc = require('ara-runtime-configuration')
+
+void async function main() {
+  try { await dht.configure(rc.network.node.dht, require('yargs')) }
+  catch (err) { await dht.configure(null, require('yargs')) }
+  await dht.start(argv)
+}()
 ```
 
 ### Command Line (ann)
