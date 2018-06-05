@@ -47,7 +47,7 @@ async function start(argv) {
 async function stop(argv) {
   if (null == server) { return false }
   warn("dht: Stopping server")
-  server.close(onclose)
+  server.destroy(onclose)
   return true
   function onclose() {
     server = null
@@ -57,6 +57,12 @@ async function stop(argv) {
 async function configure(opts, program) {
   if (program) {
     const { argv } = program
+	.option('port', {
+	  alias: 'p',
+	  type: 'number',
+	  describe: "Port or ports to listen on",
+          default: conf.port
+	})
     if (argv.port) {
       opts.port = argv.port
     }
