@@ -1,6 +1,6 @@
-'use strict'
 
-const { info, warn, error } = require('ara-console')
+
+const { info, warn } = require('ara-console')
 const extend = require('extend')
 const debug = require('debug')('ara:network:node:dht')
 const dht = require('ara-network/dht')
@@ -8,16 +8,19 @@ const dht = require('ara-network/dht')
 const conf = {
   maxTables: 1000,
   maxValues: 1000,
-  timeout: 2000, // in milliseconds
-  maxAge: 0, // in milliseconds
+  // in milliseconds
+  timeout: 2000,
+  // in milliseconds
+  maxAge: 0,
   nodes: [],
   port: 6881,
-  k: 20, // number of buckets (k-buckets)
+  // number of buckets (k-buckets)
+  k: 20,
 }
 
 let server = null
 
-async function start(argv) {
+async function start() {
   if (server) { return false }
 
   server = dht.createServer(conf)
@@ -29,23 +32,23 @@ async function start(argv) {
   return true
 
   function onerror(err) {
-    warn("dht: error:", err.message)
-    debug("error:", err)
+    warn('dht: error:', err.message)
+    debug('error:', err)
   }
 
   function onclose() {
-    warn("dht: Closed")
+    warn('dht: Closed')
   }
 
   function onlistening() {
     const { port } = server.address()
-    info("dht: Listening on port %s", port)
+    info('dht: Listening on port %s', port)
   }
 }
 
-async function stop(argv) {
-  if (null == server) { return false }
-  warn("dht: Stopping server")
+async function stop() {
+  if (server == null) { return false }
+  warn('dht: Stopping server')
   server.close(onclose)
   return true
   function onclose() {
@@ -63,7 +66,7 @@ async function configure(opts, program) {
   return extend(true, conf, opts)
 }
 
-async function getInstance(argv) {
+async function getInstance() {
   return server
 }
 
