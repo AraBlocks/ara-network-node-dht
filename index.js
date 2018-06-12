@@ -1,5 +1,3 @@
-
-
 const { info, warn } = require('ara-console')
 const extend = require('extend')
 const debug = require('debug')('ara:network:node:dht')
