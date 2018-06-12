@@ -1,6 +1,8 @@
 ara-network-node-dht
 ====================
 
+[![Build Status](https://travis-ci.com/AraBlocks/ara-network-node-dht.svg?token=r6p7pesHZ9MRJsVsrYFe&branch=master)](https://travis-ci.com/AraBlocks/ara-network-node-dht)
+
 An ARA Network node that runs a DHT.
 
 ## Installation
