@@ -61,7 +61,7 @@ network: {
     dht: { 
       multicast: true, 
       loopback: true, 
-      ports: 5300 
+      port: 6881
     }
   }
 }
