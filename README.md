@@ -5,23 +5,29 @@
 
 An ARA Network node that runs a DHT.
 
-## Installation
+## Status
+This project is still in alpha development.
 
+> **Important**: While this project is under active development, run `npm link` in `ara-network-node-dht` directory & `npm link ara-network-node-dht` in `ara-network` directory.
+
+## Dependencies
+- [Node](https://nodejs.org/en/download/)
+- [ara-network][ara-network]
+
+## Installation
 ```sh
 $ npm install ara-network ara-network-node-dht
 ```
 
-## Usage
+## Configuration
+[ara-runtime-configuration][ara-runtime-configuration] is a dependency of [ara-network][ara-network] and will either read from the nearest `.ararc`.  Install [ara-runtime-configuration][ara-runtime-configuration] separately to specify default values not present in an `.ararc`.
 
-### Runtime Configuration
+Runtime configuration can be specified by targeting the
+`[network.node.dht]` _INI_ section or a nested _JSON_ object
+`{ network: { node: { dht: { ... }}}}`.
 
-[rc]: https://github.com/arablocks/ara-runtime-configuration
-
-[Runtime configuration][rc] can be specified by targeting the
-`[network.node.dht]` _INI_ section or the nested _JSON_ object
-`{ network: { node: { dht: { ... }}}`. For clarity, we detail the
-options below in _INI_ format.
-
+### Examples
+_INI_ format in an `.ararc`:
 ```ini
 [network.node.dht]
   ; maximum query concurrency
@@ -48,14 +54,20 @@ options below in _INI_ format.
   ; number of buckets (k-buckets)
   k = 20
 ```
+_JSON_ format (passed in to ara-runtime-configuration `rc` function:
+```json
+network: { 
+  node: { 
+    dht: { 
+      multicast: true, 
+      loopback: true, 
+      ports: 5300 
+    }
+  }
+}
+```
 
-### Programmatic
-
-[interface]: https://github.com/AraBlocks/ara-network/blob/master/nodes/README.md
-
-The `ara-network-node-dht` module can be used programmatically as it
-conforms to the [`ara-network` node interface][interface].
-
+## Usage
 ```js
 const { argv } = require('yargs')
 const dht = require('ara-network-node-dht')
@@ -68,28 +80,40 @@ void async function main() {
 }()
 ```
 
-### Command Line (ann)
+#### Command Line (ann)
+```bash
+$ ann --type dht --help
+usage: ann -t dht [options]
 
-With the `ann` (or `ara-network-node`) command line interface, you can
-invoke this network node by running the following:
+Options:
+  --debug, -D  Enable debug output                                     [boolean]
+  --conf, -C   Path to configuration file                               [string]
+  --help, -h   Show help                                               [boolean]
+  --port, -p   Port or ports to listen on               [number] [default: 6881]
+```
 
+### Examples
+#### Command Line (ann)
+Invoke a network node with the `ann` (or `ara-network-node`) command line interface:
 ```sh
 $ ann --type dht
 ```
+Default port is `6881`.
 
-To see usage help about this network node interface, run the following:
-
-```sh
-$ ann --type dht --help
-```
+## Contributing
+- [Commit message format](/.github/COMMIT_FORMAT.md)
+- [Commit message examples](/.github/COMMIT_FORMAT_EXAMPLES.md)
+- [How to contribute](/.github/CONTRIBUTING.md)
 
 ## See Also
-
-* [ara-network](https://github.com/arablocks/ara-network)
-* [bittorrent-dht](https://www.npmjs.com/package/bittorrent-dht)
-* [k-rpc](https://github.com/mafintosh/k-rpc)
-* [k-rpc-socket](https://github.com/mafintosh/k-rpc-socket)
+- [ara-network](https://github.com/arablocks/ara-network)
+- [bittorrent-dht](https://www.npmjs.com/package/bittorrent-dht)
+- [k-rpc](https://github.com/mafintosh/k-rpc)
+- [k-rpc-socket](https://github.com/mafintosh/k-rpc-socket)
 
 ## License
-
 LGPL-3.0
+
+[ara-network]: https://github.com/arablocks/ara-network
+[ara-runtime-configuration]: https://github.com/arablocks/ara-runtime-configuration
+
