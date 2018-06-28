@@ -1,11 +1,10 @@
-
-
 const { info, warn } = require('ara-console')
 const extend = require('extend')
 const debug = require('debug')('ara:network:node:dht')
 const dht = require('ara-network/dht')
+const rc = require('ara-runtime-configuration')()
 
-const conf = {
+let conf = {
   concurrency: 16,
   maxTables: 1000,
   maxValues: 1000,
@@ -17,6 +16,10 @@ const conf = {
   port: 6881,
   // number of buckets (k-buckets)
   k: 20,
+}
+
+if (rc.network.node && rc.network.node.dht) {
+  conf = extend(true, {}, conf, rc.network.node.dht)
 }
 
 let server = null
