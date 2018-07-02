@@ -57,10 +57,12 @@ async function stop() {
 }
 
 async function configure(opts, program) {
+  let rc = {}
   if (rc.network.node && rc.network.node.dht) {
-    // eslint-disable-next-line no-param-reassign
-    opts = extend(true, {}, conf, rc.network.node.dht, opts)
+    rc = rc.network.node.dht
   }
+  // eslint-disable-next-line no-param-reassign
+  opts = extend(true, {}, conf, rc, opts)
   if (program) {
     const { argv } = program
       .option('port', {
