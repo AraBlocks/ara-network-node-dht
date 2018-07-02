@@ -4,7 +4,7 @@ const debug = require('debug')('ara:network:node:dht')
 const dht = require('ara-network/dht')
 const rc = require('ara-runtime-configuration')()
 
-let conf = {
+const conf = {
   concurrency: 16,
   maxTables: 1000,
   maxValues: 1000,
@@ -16,10 +16,6 @@ let conf = {
   port: 6881,
   // number of buckets (k-buckets)
   k: 20,
-}
-
-if (rc.network.node && rc.network.node.dht) {
-  conf = extend(true, {}, conf, rc.network.node.dht)
 }
 
 let server = null
@@ -61,15 +57,20 @@ async function stop() {
 }
 
 async function configure(opts, program) {
+  if (rc.network.node && rc.network.node.dht) {
+    // eslint-disable-next-line no-param-reassign
+    opts = extend(true, {}, conf, rc.network.node.dht, opts)
+  }
   if (program) {
     const { argv } = program
       .option('port', {
         alias: 'p',
         type: 'number',
         describe: 'Port or ports to listen on',
-        default: conf.port
+        default: opts.port
       })
     if (argv.port) {
+      // eslint-disable-next-line no-param-reassign
       opts.port = argv.port
     }
   }
