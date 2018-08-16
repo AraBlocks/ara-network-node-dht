@@ -2,7 +2,7 @@ const { info, warn } = require('ara-console')
 const extend = require('extend')
 const debug = require('debug')('ara:network:node:dht')
 const dht = require('ara-network/dht')
-const rc = require('ara-runtime-configuration')()
+const rc = require('ara-network/rc')()
 
 const conf = {
   concurrency: 16,
@@ -18,7 +18,37 @@ const conf = {
   k: 20,
 }
 
+if (rc.network && rc.network.node && rc.network.node.dht) {
+  extend(true, conf, rc.network.node.dht)
+}
+
 let server = null
+
+async function getInstance() {
+  return server
+}
+
+async function configure(opts, program) {
+  // eslint-disable-next-line no-param-reassign
+  opts = extend(true, {}, conf, rc, opts)
+
+  if (program) {
+    const { argv } = program
+      .option('port', {
+        alias: 'p',
+        type: 'number',
+        describe: 'Port or ports to listen on',
+        default: opts.port
+      })
+
+    if (argv.port) {
+      // eslint-disable-next-line no-param-reassign
+      opts.port = argv.port
+    }
+  }
+
+  return extend(true, conf, opts)
+}
 
 async function start() {
   if (server) { return false }
@@ -54,33 +84,6 @@ async function stop() {
   function onclose() {
     server = null
   }
-}
-
-async function configure(opts, program) {
-  let rc = {}
-  if (rc.network.node && rc.network.node.dht) {
-    rc = rc.network.node.dht
-  }
-  // eslint-disable-next-line no-param-reassign
-  opts = extend(true, {}, conf, rc, opts)
-  if (program) {
-    const { argv } = program
-      .option('port', {
-        alias: 'p',
-        type: 'number',
-        describe: 'Port or ports to listen on',
-        default: opts.port
-      })
-    if (argv.port) {
-      // eslint-disable-next-line no-param-reassign
-      opts.port = argv.port
-    }
-  }
-  return extend(true, conf, opts)
-}
-
-async function getInstance() {
-  return server
 }
 
 module.exports = {
