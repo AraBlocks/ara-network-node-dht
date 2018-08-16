@@ -1,6 +1,6 @@
 {
   "name": "ara-network-node-dht",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "An ARA Network node that runs a DHT",
   "main": "index.js",
   "scripts": {
