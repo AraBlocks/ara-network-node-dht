@@ -29,25 +29,42 @@ async function getInstance() {
 }
 
 async function configure(opts, program) {
-  // eslint-disable-next-line no-param-reassign
-  opts = extend(true, {}, conf, rc, opts)
+  if (opts) {
+    conf.concurrency = opts.concurrency
+    conf.timeout = opts.timeout
+    conf.port = opts.port
+  }
 
   if (program) {
     const { argv } = program
-      .option('port', {
-        alias: 'p',
+      .option('p', {
+        alias: 'port',
         type: 'number',
         describe: 'Port or ports to listen on',
-        default: opts.port
+        default: conf.port
+      })
+      .option('c', {
+        alias: 'concurrency',
+        type: 'number',
+        describe: 'Max concurrency',
+        default: conf.concurrency
       })
 
     if (argv.port) {
       // eslint-disable-next-line no-param-reassign
-      opts.port = argv.port
+      conf.port = argv.port
+    }
+
+    if (argv.timeout) {
+      // eslint-disable-next-line no-param-reassign
+      conf.timeout = argv.timeout
+    }
+
+    if (argv.concurrency) {
+      // eslint-disable-next-line no-param-reassign
+      conf.concurrency = argv.concurrency
     }
   }
-
-  return extend(true, conf, opts)
 }
 
 async function start() {
