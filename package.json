@@ -25,13 +25,14 @@
   },
   "homepage": "https://github.com/AraBlocks/ara-network-node-dht#readme",
   "dependencies": {
-    "ara-console": "github:arablocks/ara-console",
     "ara-network": "github:arablocks/ara-network",
-    "ara-runtime-configuration": "github:arablocks/ara-runtime-configuration",
     "debug": "^3.1.0",
     "extend": "^3.0.1"
   },
-  "peerDependencies": {},
+  "peerDependencies": {
+    "ara-console": "github:arablocks/ara-console",
+    "ara-runtime-configuration": "github:arablocks/ara-runtime-configuration"
+  },
   "optionalDependencies": {},
   "devDependencies": {
     "eslint": "^4.19.1",
