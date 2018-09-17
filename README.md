@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.com/AraBlocks/ara-network-node-dht.svg?token=r6p7pesHZ9MRJsVsrYFe&branch=master)](https://travis-ci.com/AraBlocks/ara-network-node-dht)
 
-An ARA Network node that runs a DHT.
+An Ara Network node that runs a DHT.
 
 ## Status
 This project is still in alpha development.
@@ -56,12 +56,12 @@ _INI_ format in an `.ararc`:
 ```
 _JSON_ format (passed in to ara-runtime-configuration `rc` function:
 ```json
-network: { 
-  node: { 
-    dht: { 
-      multicast: true, 
-      loopback: true, 
-      port: 6881
+"network": {
+  "node": {
+    "dht": {
+      "multicast": true,
+      "loopback": true,
+      "port": 6881
     }
   }
 }
